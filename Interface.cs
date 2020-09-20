@@ -9,21 +9,22 @@ namespace WorkWithConsole
     class Interface
     {
         private static List<int> errors = new List<int>();
-        public static void select()
+        public static void GetMenu()
         {
             bool a = true;
             while (true)
             {
-                printlvl0();
+                GeneralMenu();
                 try
                 {
                     int b = int.Parse(Console.ReadLine());
                     switch (b)
                     {
                         case 1:
-                            workwithping();
+                            WorkWithPing();
                             break;
                         case 2:
+                            WorkWithTransert();
                             break;
                         case 3:
                             break;
@@ -43,7 +44,7 @@ namespace WorkWithConsole
         /// <summary>
         /// главное меню с программами
         /// </summary>
-        private static void printlvl0()
+        private static void GeneralMenu()
         {
             Console.WriteLine("Выберите команду");
             Console.WriteLine("1. PING");
@@ -54,9 +55,9 @@ namespace WorkWithConsole
         /// <summary>
         /// метод для программы PING. Подробнее https://docs.microsoft.com/ru-ru/windows-server/administration/windows-commands/ping?source=docs
         /// </summary>
-        private static void workwithping()
+        private static void WorkWithPing()
         {
-            Console.WriteLine("Выберите аргумент или введите их через запятую");
+            Console.WriteLine("Выберите аргумент или несколько аргументов, введя их через запятую:");
             Console.WriteLine("0. отменить ввод команды");
             Console.WriteLine("1. задать число отправленных запросов. По умолчанию 4 (/n)");
             Console.WriteLine("2. задать  разрешение обратных имен выполняется на IP-адрес назначения (/а)");
@@ -169,12 +170,10 @@ namespace WorkWithConsole
                     case "10":
                         Console.WriteLine("/j");
                         tmp = Console.ReadLine();
-                        if (int.TryParse(tmp, out t))
-                        {
-                            if ((t >= 0) && (t <= 9))
-                                commandargs += "/j " + t + " ";
-                            else
-                                errors.Add(10);
+                        if (((tmp.Split(' ').Length==9)))
+                        {  
+                            commandargs += "/j " + tmp + " ";
+                           
                         }
                         else
                             errors.Add(10);
@@ -220,12 +219,7 @@ namespace WorkWithConsole
                 }
             }
             Console.WriteLine("введите IP адрес");
-            string ip = Console.ReadLine();
-            while (!(ip.Split('.').Length == 4))
-            {
-                Console.WriteLine("ubcorect input. please try again");
-                ip = Console.ReadLine();
-            }
+            string ip = getip();
             if (errors.Count==0)
             WorkWithCmd.ExecuteCommand("ping.exe", commandargs);
             else
@@ -237,6 +231,40 @@ namespace WorkWithConsole
                 }
                 Console.WriteLine();
             }
+        }
+        private static void WorkWithTransert()
+        {
+            Console.WriteLine("Выберите аргумент или несколько аргументов, введя их через запятую:");
+            Console.WriteLine("1. предотвратить попытки команды tracert разрешения IP-адресов промежуточных маршрутизаторов в имена. Увеличивает скорость вывода результатов команды tracert");
+            Console.WriteLine("2. задать максимальное количество переходов на пути при поиске конечного объекта. Значение по умолчанию 30");
+            Console.WriteLine("3. указать для сообщений с запросом использование параметра свободной маршрутизации в заголовке IP с набором промежуточных мест назначения. Максимальное число адресов - 9, разделитель пробел");
+        }
+        private static bool CheckIp(string ipstr)
+        {
+            return ipstr.Split('.').Length == 4;
+        }
+        private static bool CheckArrayIp(string iparrstr)
+        {
+            bool rez = true;
+            foreach (string data in iparrstr.Split(' '))
+            {
+                if (!CheckIp(data))
+                {
+                    rez = false;
+                    break;
+                }
+            }
+            return rez;
+        }
+        private static string getip()
+        {
+            string ip = Console.ReadLine();
+            while (!(ip.Split('.').Length == 4))
+            {
+                Console.WriteLine("uncorrect input. please try again");
+                ip = Console.ReadLine();
+            }
+            return ip;
         }
     }
 }

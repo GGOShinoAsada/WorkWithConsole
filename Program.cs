@@ -11,6 +11,7 @@ namespace WorkWithConsole
     {
         static void Main(string[] args)
         {
+            Interface.GetMenu();
             //WorkWithCmd.ExecuteCommand("ping.exe", "-t -n 3 192.168.100.1");
             //WorkWithCmd.ExecuteCommand("tracert.exe", "11.1.0.1");
             //WorkWithCmd.ExecuteCommand("netstat.exe", "-a -n -o");
