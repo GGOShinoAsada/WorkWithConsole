@@ -8,6 +8,7 @@ namespace WorkWithConsole
 {
     class Interface
     {
+        private static List<int> errors = new List<int>();
         public static void select()
         {
             bool a = true;
@@ -20,6 +21,7 @@ namespace WorkWithConsole
                     switch (b)
                     {
                         case 1:
+                            workwithping();
                             break;
                         case 2:
                             break;
@@ -52,7 +54,7 @@ namespace WorkWithConsole
         /// <summary>
         /// метод для программы PING. Подробнее https://docs.microsoft.com/ru-ru/windows-server/administration/windows-commands/ping?source=docs
         /// </summary>
-        private static void printlvl1()
+        private static void workwithping()
         {
             Console.WriteLine("Выберите аргумент или введите их через запятую");
             Console.WriteLine("0. отменить ввод команды");
@@ -66,22 +68,174 @@ namespace WorkWithConsole
             Console.WriteLine("8. указать, что параметр записи Route в заголовке IP-адреса используется для записи пути, полученного сообщением запроса, и соответствующего сообщения о ответе (доступно только в IPv4). Каждый прыжок в пути использует запись в параметре запись маршрута . Диапазон прыжка от 1 до 9.(/r)");
             Console.WriteLine("9. указать, что параметр отметка времени Интернета в заголовке IP используется для записи времени прибытия сообщения запроса и соответствующего сообщения эхо-ответа для каждого прыжка. Минимальное значение 1 и максимальное 4.( /s)");
             Console.WriteLine("10. указать, что сообщения запроса используют параметр свободного исходного маршрута в заголовке IP с набором промежуточных назначений, указанных в hostlist (доступно только в IPv4). Максимальное возможное число адресов или имен в списке узлов равно 9. (/j)");
-            Console.WriteLine("11. указать, что сообщения эхо-запроса используют в заголовке IP параметр с максимальным исходным маршрутом с набором промежуточных назначений, указанных в hostlist (доступно только в IPv4). Максимальное число адресов или имен в списке узлов равно 9. (/k)");
-            Console.WriteLine("12. указать время (в миллисекундах) ожидания получения сообщения о ответе, соответствующего заданному сообщению запроса. Если ответное сообщение не получено в течение времени ожидания, отображается сообщение об ошибке \"запрос был превышен\").По умолчанию время ожидания составляет 4000(4 секунды). (/w)");
+            Console.WriteLine("11. указать, что сообщения запроса используют в заголовке IP параметр с максимальным исходным маршрутом с набором промежуточных назначений, указанных в hostlist (доступно только в IPv4). Максимальное число адресов или имен в списке узлов равно 9. (/k)");
+            Console.WriteLine("12. указать время (в миллисекундах) ожидания получения сообщения о ответе, соответствующего заданному сообщению запроса. Если ответное сообщение не получено в течение времени ожидания, отображается сообщение об ошибке \"запрос был превышен\").По умолчанию время ожидания составляет 4000 (4 секунды). (/w)");
             Console.WriteLine("13. Указать, что путь приема-передачи отслеживается (доступно только в IPv6). (/R)");
             Console.WriteLine("14. указать используемый адрес (доступно только в IPV6) (/S)");
             Console.WriteLine("15. указать, что протокол IPv4 используется для проверки связи. Этот параметр не требуется для определения целевого узла с IPv4-адресом. Необходимо только указать целевой узел по имени (/4)");
             Console.WriteLine("16. указать, Указывает, что протокол IPv6 используется для проверки связи. Этот параметр не требуется для определения целевого узла с IPv6-адресом. Необходимо только указать целевой узел по имени. (/6)");
             string input = Console.ReadLine();
             List<string> data = input.Split(',').ToList();
-            string command = "ping.exe ";
+            string commandargs = "";
+            string tmp = "";
+            errors = new List<int>();
             foreach (string arg in data)
             {
                 switch (arg)
                 {
-                    case "0":
+                    case "1":
+                        Console.WriteLine("/n");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out int t))
+                            commandargs +="/n "+ t+" ";
+                        else
+                            errors.Add(1);
                         break;
+                    case "2":
+                       
+                        commandargs += "/a ";
+                        break;
+                    case "3": 
+                        Console.WriteLine("/i");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                        {
+                            if ((t >= 0) && (t <= 255))
+                                commandargs += "/i " + t + " ";
+                            else
+                                errors.Add(3);
+                        }
+                        else
+                            errors.Add(3);
+                        break;
+                    case "4":
+                        commandargs += "-t ";//-t and /t are ecvivalented. This sintaxis don't get a conflicts.
+                        break;
+                    case "5":
+                        Console.WriteLine("/l");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                        {
+                            if ((t >= 32) && (t <= 65527))
+                                commandargs += "/l " + t + " ";
+                            else
+                                errors.Add(5);
+                        }
+                        else
+                            errors.Add(5);
+                        break;
+                    case "6":
+                        commandargs += "/f ";
+                        break;
+                    case "7":
+                        Console.WriteLine("/v");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                        {
+                            if ((t >= 0) && (t <= 255))
+                                commandargs += "/v " + t + " ";
+                            else
+                                errors.Add(7);
+                        }
+                        else
+                            errors.Add(7);
+                        break;
+                    case "8":
+                        Console.WriteLine("/r");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                        {
+                            if ((t >= 1) && (t <= 9))
+                                commandargs += "/r " + t + " ";
+                            else
+                                errors.Add(8);
+                        }
+                        else
+                            errors.Add(8);
+                        break;
+                    case "9":
+                        Console.WriteLine("/s");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                        {
+                            if ((t >= 1) && (t <= 4))
+                                commandargs += "/r " + t + " ";
+                            else
+                                errors.Add(9);
+                        }
+                        else
+                            errors.Add(9);
+                        break;
+                    case "10":
+                        Console.WriteLine("/j");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                        {
+                            if ((t >= 0) && (t <= 9))
+                                commandargs += "/j " + t + " ";
+                            else
+                                errors.Add(10);
+                        }
+                        else
+                            errors.Add(10);
+                        break;
+                    case "11":
+                        Console.WriteLine("/k");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                        {
+                            if ((t >= 0) && (t <= 9))
+                                commandargs += "/k " + t + " ";
+                            else
+                                errors.Add(11);
+                        }
+                        else
+                            errors.Add(11);
+                        break;
+                    case "12":
+                        Console.WriteLine("/w");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                        { 
+                            commandargs += "/w " + t + " ";
+                        }
+                        else
+                            errors.Add(12);
+                        break;
+                    case "13":
+                        commandargs += "/R ";
+                        break;
+                    case "14":
+                        commandargs += " /S";
+                        break;
+                    case "15":
+                        commandargs += " /4";
+                        break;
+                    case "16":
+                        commandargs += " /6";
+                        break;
+                    case "0":
+                        Console.WriteLine("отмена ввода команды");
+                        return;
                 }
+            }
+            Console.WriteLine("введите IP адрес");
+            string ip = Console.ReadLine();
+            while (!(ip.Split('.').Length == 4))
+            {
+                Console.WriteLine("ubcorect input. please try again");
+                ip = Console.ReadLine();
+            }
+            if (errors.Count==0)
+            WorkWithCmd.ExecuteCommand("ping.exe", commandargs);
+            else
+            {
+                Console.WriteLine("допушены ошибки при вводе:");
+                foreach (int t in errors)
+                {
+                    Console.Write(t+"\t");
+                }
+                Console.WriteLine();
             }
         }
     }
