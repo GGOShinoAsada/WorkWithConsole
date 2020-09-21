@@ -306,7 +306,23 @@ namespace WorkWithConsole
         /// </summary>
         private static void WorkWithNet()
         {
-
+            Console.WriteLine("Выберите аргумент или несколько аргументов, введя их через запятую:");
+            Console.WriteLine("1. установить пароль и требования входа в систему для пользователей (NET accounts)");
+            Console.WriteLine("2. добавить или удалить копьютер в домене (NET computer)");
+            Console.WriteLine("3. вывести информацию о конфигурации (NET config");
+            Console.WriteLine("4. перезапустить службу, которая была остановлена (NET countinue)");
+            Console.WriteLine("5. показать открытые файлы на сервере, закрыть общий доступ к файлу и снятие блокировки файла (NET file)");
+            Console.WriteLine("6. управлять глобальными группами на сервере (NET group)");
+            Console.WriteLine("7. управлять пользователями на локальной машине (NET localgroup)");
+            Console.WriteLine("8. приостановить работы службы windows (NET pause)");
+            Console.WriteLine("9. управление сеансами между компьютером и другими пользователями сети (NET session)");
+            Console.WriteLine("10. управление общими ресурсами копьютера (NET share)");
+            Console.WriteLine("11. запустить службу или вывести список служб (NET start)");
+            Console.WriteLine("12. просмотр сетевой статистики (NET statistics)");
+            Console.WriteLine("13. остановить службу (NET stop)");
+            Console.WriteLine("14. отображение общих ресурсов и подключение к нивым (NET use)");
+            Console.WriteLine("15. просмотр компьютеров и сетевых устройств в сети (NET view)");
+            
         }
         private static bool CheckIp(string ipstr)
         {
