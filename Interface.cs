@@ -301,6 +301,13 @@ namespace WorkWithConsole
                 }
             }
         }
+        /// <summary>
+        /// работа с утилитой NET. Подробнее https://www.lifewire.com/net-command-2618094
+        /// </summary>
+        private static void WorkWithNet()
+        {
+
+        }
         private static bool CheckIp(string ipstr)
         {
             return ipstr.Split('.').Length == 4;
