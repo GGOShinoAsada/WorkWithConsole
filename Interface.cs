@@ -53,7 +53,7 @@ namespace WorkWithConsole
             Console.WriteLine("0. EXIT");
         }
         /// <summary>
-        /// метод для программы PING. Подробнее https://docs.microsoft.com/ru-ru/windows-server/administration/windows-commands/ping?source=docs
+        /// работа с утилитой PING. Подробнее https://docs.microsoft.com/ru-ru/windows-server/administration/windows-commands/ping?source=docs
         /// </summary>
         private static void WorkWithPing()
         {
@@ -170,7 +170,7 @@ namespace WorkWithConsole
                     case "10":
                         Console.WriteLine("/j");
                         tmp = Console.ReadLine();
-                        if (((tmp.Split(' ').Length==9)))
+                        if (((tmp.Split(' ').Length<=9)))
                         {  
                             commandargs += "/j " + tmp + " ";
                            
@@ -232,12 +232,74 @@ namespace WorkWithConsole
                 Console.WriteLine();
             }
         }
+        /// <summary>
+        /// работа с утилитой transert. Подробнее http://cmd4win.ru/administrirovanie-seti/diagnostika-sety/51-tracert
+        /// </summary>
         private static void WorkWithTransert()
         {
             Console.WriteLine("Выберите аргумент или несколько аргументов, введя их через запятую:");
-            Console.WriteLine("1. предотвратить попытки команды tracert разрешения IP-адресов промежуточных маршрутизаторов в имена. Увеличивает скорость вывода результатов команды tracert");
-            Console.WriteLine("2. задать максимальное количество переходов на пути при поиске конечного объекта. Значение по умолчанию 30");
-            Console.WriteLine("3. указать для сообщений с запросом использование параметра свободной маршрутизации в заголовке IP с набором промежуточных мест назначения. Максимальное число адресов - 9, разделитель пробел");
+            Console.WriteLine("1. предотвратить попытки команды tracert разрешения IP-адресов промежуточных маршрутизаторов в имена. Увеличивает скорость вывода результатов команды tracert (/d)");
+            Console.WriteLine("2. задать максимальное количество переходов на пути при поиске конечного объекта. Значение по умолчанию 30 (/h)");
+            Console.WriteLine("3. указать для сообщений с запросом использование параметра свободной маршрутизации в заголовке IP с набором промежуточных мест назначения. Максимальное число адресов - 9, разделитель пробел (/j)");
+            Console.WriteLine("4. определить время ожидания ответов протокола ICMP или сообщений ICMP об истечении времени, соответствующих данному сообщению заказа (/w). По умолчанию время ожидания составляет 4000 (4 секунды). (/w)");
+            Console.WriteLine("0. отменить выполнение команды");
+            string input = Console.ReadLine();
+            List<string> data = input.Split(',').ToList();
+            errors = new List<int>();
+            string commandargs = "";
+            string tmp = "";
+            foreach (string arg in data)
+            {
+                switch (arg)
+                {
+                    case "1":
+                        commandargs += " /d";
+                        break;
+                    case "2":
+                        Console.WriteLine("/h");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out int t))
+                            commandargs += " /h " + t+" ";
+                        else
+                            errors.Add(2);
+                        break;
+                    case "4":
+                        Console.WriteLine("/w");
+                        tmp = Console.ReadLine();
+                        if (int.TryParse(tmp, out t))
+                            commandargs += " /w " + t;
+                        else
+                            errors.Add(3);
+                        break;
+                    case "3":
+                        Console.WriteLine("/j");
+                        tmp = Console.ReadLine();
+                        if (((tmp.Split(' ').Length <= 9)))
+                        {
+                            commandargs += "/j " + tmp + " ";
+
+                        }
+                        else
+                            errors.Add(3);
+                        break;
+                    case "0":
+                        Console.WriteLine("отмена ввода команды");
+                        return;
+                }
+                Console.WriteLine("введите IP адрес");
+                string ip = getip();
+                if (errors.Count == 0)
+                    WorkWithCmd.ExecuteCommand("transert.exe", commandargs);
+                else
+                {
+                    Console.WriteLine("допушены ошибки при вводе:");
+                    foreach (int t in errors)
+                    {
+                        Console.Write(t + "\t");
+                    }
+                    Console.WriteLine();
+                }
+            }
         }
         private static bool CheckIp(string ipstr)
         {
