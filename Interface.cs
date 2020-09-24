@@ -322,13 +322,19 @@ namespace WorkWithConsole
             Console.WriteLine("13. остановить службу (NET stop)");
             Console.WriteLine("14. отображение общих ресурсов и подключение к нивым (NET use)");
             Console.WriteLine("15. просмотр компьютеров и сетевых устройств в сети (NET view)");
-            Console.WriteLine("0. отмена выполнения команды");
+            Console.WriteLine("0. Отменить выполнение команды");
             string input = Console.ReadLine();
             List<string> data = input.Split(',').ToList();
+            errors = new List<int>();
+            string commandargs = "";
+            string tmp = "";
             foreach (string arg in data)
             {
                 switch (arg)
                 {
+                    case "0":
+                        Console.WriteLine("Отмена выполнения команды");
+                        return;
                     case "1":
                         break;
                     case "2":
@@ -359,11 +365,8 @@ namespace WorkWithConsole
                         break;
                     case "15":
                         break;
-                    case "0":
-                        Console.WriteLine("отмена ввода команды");
-                        return;
                 }
-            }
+            }              
         }
         private static bool CheckIp(string ipstr)
         {

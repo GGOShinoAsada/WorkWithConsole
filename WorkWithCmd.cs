@@ -80,6 +80,9 @@ namespace WorkWithConsole
                 process.BeginOutputReadLine();
                 process.ErrorDataReceived += Print;
                 process.BeginErrorReadLine();
+                //get output
+                PrintConsole(process);
+
                 process.WaitForExit();
             }
             catch (Exception ex)
@@ -88,5 +91,14 @@ namespace WorkWithConsole
             }
            
         }
+        private static void PrintConsole(Process process)
+        {
+            string output = process.StandardOutput.ReadToEnd();
+            foreach (string t in output.Split('\n'))
+            {
+                Console.WriteLine(t);
+            }
+        }
+
     }
 }
