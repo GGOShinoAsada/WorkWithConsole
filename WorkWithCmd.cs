@@ -72,6 +72,7 @@ namespace WorkWithConsole
             {
                 var processinfo = new ProcessStartInfo(cmdpath, args);
                 processinfo.CreateNoWindow = true;
+                processinfo.StandardOutputEncoding = Encoding.UTF8;
                 processinfo.UseShellExecute = false;
                 processinfo.RedirectStandardOutput = true;
                 processinfo.RedirectStandardError = true;
